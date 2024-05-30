@@ -1,8 +1,8 @@
 module "s3_policy" {
-  source  = "terraform-aws-modules/iam/aws//modules/iam-policy"
+  source = "terraform-aws-modules/iam/aws//modules/iam-policy"
 
-  name        = "${var.interviewee_code}-s3-access"
-  path        = "/"
+  name = "${var.interviewee_code}-s3-access"
+  path = "/"
 
   policy = <<EOF
 {

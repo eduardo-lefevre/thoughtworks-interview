@@ -1,8 +1,8 @@
 module "ec2_policy" {
-  source  = "terraform-aws-modules/iam/aws//modules/iam-policy"
+  source = "terraform-aws-modules/iam/aws//modules/iam-policy"
 
-  name        = "${var.interviewee_code}-ec2-access"
-  path        = "/"
+  name = "${var.interviewee_code}-ec2-access"
+  path = "/"
 
   policy = <<EOF
 {

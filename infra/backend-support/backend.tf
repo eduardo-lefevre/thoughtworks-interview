@@ -1,7 +1,7 @@
 # This file creates S3 bucket to hold terraform states
 # and DynamoDB table to keep the state locks.
 resource "aws_s3_bucket" "terraform_infra" {
-  bucket = "${var.prefix}-terraform-infra"
+  bucket        = "${var.prefix}-terraform-infra"
   force_destroy = true
 
   # To allow rolling back states
@@ -19,8 +19,8 @@ resource "aws_s3_bucket" "terraform_infra" {
   }
 
   tags = {
-     Name = "Bucket for terraform states of ${var.prefix}"
-     createdBy = "infra/backend-support"
+    Name      = "Bucket for terraform states of ${var.prefix}"
+    createdBy = "infra/backend-support"
   }
 }
 
@@ -52,7 +52,7 @@ resource "aws_dynamodb_table" "dynamodb-table" {
   }
 
   tags = {
-     Name = "Terraform Lock Table"
-     createdBy = "infra/backend-support ${var.prefix}"
+    Name      = "Terraform Lock Table"
+    createdBy = "infra/backend-support ${var.prefix}"
   }
 }

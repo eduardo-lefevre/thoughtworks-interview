@@ -1,8 +1,8 @@
 module "iam_policy" {
-  source  = "terraform-aws-modules/iam/aws//modules/iam-policy"
+  source = "terraform-aws-modules/iam/aws//modules/iam-policy"
 
-  name        = "${var.interviewee_code}-iam-access"
-  path        = "/"
+  name = "${var.interviewee_code}-iam-access"
+  path = "/"
 
   policy = <<EOF
 {
