@@ -14,6 +14,7 @@ locals {
   ecr_url   = data.aws_ssm_parameter.ecr.value
 }
 
+# TODO: SSH is open to the world. We should restrict it to Company's VPN, for example.
 resource "aws_security_group" "ssh_access" {
   vpc_id      = "${local.vpc_id}"
   name        = "${var.prefix}-ssh_access"
@@ -336,4 +337,34 @@ EOF
 
 output "frontend_url" {
   value = "http://${aws_instance.front_end.public_ip}:8080"
+}
+
+# Next steps (news-feed only):
+# 2. Create load balancer
+# 3. Create ASG
+# 4. Modify EC2 configuration and startup
+# 5. Route 53 (New DNS corresponding to LB)
+# 6. If the new infra works, replicate design to quotes and front-ende service
+
+resource "aws_lb" "new" {
+  name               = "${var.prefix}-newsfeed-lb"
+  internal           = false
+  load_balancer_type = "application"
+
+# ssh_access, newsfeed_sg
+
+  security_groups    = [aws_security_group.lb_sg.id]
+  subnets            = [for subnet in aws_subnet.public : subnet.id]
+
+  enable_deletion_protection = true
+
+  access_logs {
+    bucket  = aws_s3_bucket.lb_logs.id
+    prefix  = "test-lb"
+    enabled = true
+  }
+
+  tags = {
+    Environment = "production"
+  }
 }
